@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--cdn镜像快速导入Vue包-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+    <style>
+        li{
+            border: 1px dashed #999999;
+            margin: 5px;
+            line-height: 35px;
+            padding-left: 5px;
+            font-size: 12px;
+        }
+
+        li:hover{
+            background-color: red;
+            transition: all 0.8s ease;
+        }
+
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            transform:translateY(100px)
+        }
+
+        .v-enter-active，
+        v-leave-active{
+            transition: all 0.6s ease;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="app">
+<div>
+   id: <input type="text" v-model="id">
+    name: <input type="text" v-model="name">
+    <input type="button" value="添加" @click="add">
+</div>
+    <ul>
+<!--        对列表进行渲染，不能使用transition，只能用transition-group-->
+        <transition-group>
+            <li v-for="item in list" :key="item.id">
+              {{item.id}}------{{item.name}}
+            </li>
+        </transition-group>
+    </ul>
+</div>
+<script>
+    //2.创建一个vue实例
+    var vm = new Vue({
+        el: '#app',    //表示当前我们new的这个Vue实例，要控制页面上的哪个区域
+        data: { //data属性中存放的是el中要用到的数据
+            id:'',
+            name:'',
+            list:[
+                {id:1,name:'yang'},
+                {id:2,name:'wen'},
+                ]
+        },
+        methods:{
+            add(){
+                this.list.push({id:this.id,name:this.name})
+            }
+        }
+    })
+</script>
+</body>
+</html>

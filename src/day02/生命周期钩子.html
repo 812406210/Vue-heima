@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--cdn镜像快速导入Vue包-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+ <p>哈哈哈</p>
+</div>
+<script>
+    //2.创建一个vue实例
+    var vm = new Vue({
+        el: '#app',
+        data:{
+            msg:'ok'
+        },
+        methods:{
+            show(){
+                console.log("初始化")
+            }
+        },
+        beforeCreate(){//这是我们遇到的第一个生命周期函数，表示实例完全被创建出来之前，就会执行它
+           // this.show() //执行会报错，因为在beforeCreate之前，data和methods都没有初始化
+        },
+        create(){//这是我们遇到的第二个生命周期函数
+            //这个时候data和methods都初始化完成了
+            console.log("create")
+            this.show()
+        },
+        beforeMount(){//生命周期第三个函数，此函数的时候，模板已经在内存中编译好了，但是
+            //尚未把模板渲染到页面中
+        },
+        mount(){//第四个函数，表示内存中的模板已经真实的挂载到了页面中，用户已经可以看到渲染好的页面了
+
+        },
+        //接下来运行两个事件
+        berforUpdate(){//这个时候表示我们的界面还没有被更新，但数据已经更新了
+
+        },
+        updated(){//这个事件，表示数据和页面已经保持同步了
+
+        }
+
+    })
+</script>
+</body>
+</html>

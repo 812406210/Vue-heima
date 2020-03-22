@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--cdn镜像快速导入Vue包-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+
+    <input type="text" v-model="n1">
+
+    <select v-model="opt">
+        <option>+</option>
+        <option>-</option>
+        <option>*</option>
+        <option>/</option>
+    </select>
+    <input type="text" v-model="n2">
+
+    <input type="button" value="=" @click="cal">
+
+    <input type="text" v-model="result">
+
+</div>
+<script>
+    //2.创建一个vue实例
+    var vm = new Vue({
+        el: '#app',    //表示当前我们new的这个Vue实例，要控制页面上的哪个区域
+        data: { //data属性中存放的是el中要用到的数据
+            n1:0,
+            n2:0,
+            result:0,
+            opt:'+',
+            msg: '欢迎学习Vue' //通过Vue提供的指令，很方便的就能把数据渲染到页面上，程序
+        },
+        methods:{
+
+            cal(){
+                //推荐这种写法
+               switch (this.opt) {
+                   case "+":
+                       this.result = parseInt(this.n1) + parseInt(this.n2)
+                       break;
+                   case "-":
+                       this.result = parseInt(this.n1) - parseInt(this.n2)
+                       break;
+                   case "*":
+                       this.result = parseInt(this.n1) * parseInt(this.n2)
+                       break;
+                   case "/":
+                       this.result = parseInt(this.n1) / parseInt(this.n2)
+                       break;
+               }
+                //偷懒写法，不建议
+                // var codeStr = ' parseInt(this.n1) ' + this.opt +' parseInt(this.n2)'
+                // this.result = eval(codeStr)
+            }
+
+
+        }
+    })
+</script>
+</body>
+</html>

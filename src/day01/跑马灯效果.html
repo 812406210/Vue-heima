@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <input type="button" value="浪起来"  @click="start">
+    <input type="button" value="低调"  @click="stop">
+    <h4>{{msg}}</h4>
+</div>
+<script>
+    //注意：在vm实例中，如果想要获取data上的数据，或者想要调用methods中的方法，必须通过
+    //this.属性名 或this.方法名来进行访问 ，这里的this,就表示我们new除开的vm实例对象
+    new Vue({
+        el:'#app',
+        data:{
+            msg:'猥琐发育，别浪~~！',
+            intervalId:null //定义定时器id
+        },
+        methods:{
+            //1、绑定点击事件 v-on
+            //2、字符串截取
+            //3、定时器
+            start(){
+                console.log(this.msg)
+                //记录并开启定时器
+                if(this.intervalId != null) return
+                this.intervalId = setInterval( () => {
+
+                    //获取头字符
+                    var s = this.msg.substring(0,1)
+                    //获取除头外所有字符
+                    var e = this.msg.substring(1)
+                    this.msg = e + s
+                },400)
+                //注意：vm实例会监听自己身上data中所有数据的改变，只要数据一发生变化，就会自动把最新
+                //的数据，从data上同步到页面中去
+            },
+            stop(){
+                //清除定时器
+                clearInterval(this.intervalId)
+                this.intervalId = null;
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

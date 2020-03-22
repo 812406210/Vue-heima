@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--cdn镜像快速导入Vue包-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--插值表达式-->
+    <h1>{{msg}}</h1>
+</div>
+<script>
+    //2.创建一个vue实例
+    var vm = new Vue({
+        el: '#app',    //表示当前我们new的这个Vue实例，要控制页面上的哪个区域
+        data: { //data属性中存放的是el中要用到的数据
+            msg: '欢迎学习Vue' //通过Vue提供的指令，很方便的就能把数据渲染到页面上，程序
+        }
+    })
+</script>
+</body>
+</html>

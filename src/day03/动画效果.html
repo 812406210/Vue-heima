@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--cdn镜像快速导入Vue包-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+    <!--v-enter，是进入之前，元素起始状态        -->
+    <style>
+        /*v-enter，是进入之前，元素起始状态*/
+        /*v-leave-to，是动画离开之后的终止状态，*/
+        .v-enter,
+        .v-leave-to{
+            opacity:0;
+            transform: translateX(80px);
+        }
+        /*v-enter-active :入场的动画时间段*/
+        /*v-leave-active :离场的动画时间段*/
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.4s ease;
+        }
+
+        /*自定义前缀*/
+        .my-enter,
+        .my-leave-to{
+            opacity:0;
+            transform: translateY(80px);
+        }
+        /*v-enter-active :入场的动画时间段*/
+        /*v-leave-active :离场的动画时间段*/
+        .my-enter-active,
+        .my-leave-active{
+            transition: all 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--插值表达式-->
+    <input type="button" value="toggle" @click="flag=!flag"></input>
+<!--使用transition元素，把需要被动画控制的元素包裹起来，它是Vue官方提供的    -->
+    <transition>
+        <h1 v-if="flag">{{msg}}</h1>
+    </transition>
+
+    <!--自定义前缀-->
+    <!--插值表达式-->
+    <input type="button" value="toggle" @click="flag=!flag"></input>
+    <!--使用transition元素，把需要被动画控制的元素包裹起来，它是Vue官方提供的    -->
+    <transition name="my">
+        <h6 v-if="flag">{{msg}}</h6>
+    </transition>
+</div>
+<script>
+    //2.创建一个vue实例
+    var vm = new Vue({
+        el: '#app',    //表示当前我们new的这个Vue实例，要控制页面上的哪个区域
+        data: { //data属性中存放的是el中要用到的数据
+            flag:false,
+            msg: '欢迎学习Vue' //通过Vue提供的指令，很方便的就能把数据渲染到页面上，程序
+        }
+    })
+</script>
+</body>
+</html>

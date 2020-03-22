@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--cdn镜像快速导入Vue包-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--插值表达式-->
+    <h1>{{msg}}</h1>
+    <!--    遍历普通数组-->
+    <p v-for="(item,id) in list">值为：{{item}},索引为：{{id}}</p>
+    <!--    遍历字典,注意属性key的使用，且key必须为数字或者字符串-->
+    <p v-for="user in listDic" :key="user.id">值为：{{user.id}},索引为：{{user.userName}}</p>
+    <!--    遍历对象,除了key,value,还有一个索引-->
+    <p v-for="(value,key,i) in userObj">索引：{{i}},值：{{value}}，键：{{key}}</p>
+    <!--    迭代数字-->
+    <p v-for="count in 2">循环次数为：{{count}}</p>
+
+</div>
+<script>
+    //2.创建一个vue实例
+    var vm = new Vue({
+        el: '#app',    //表示当前我们new的这个Vue实例，要控制页面上的哪个区域
+        data: { //data属性中存放的是el中要用到的数据
+            list:[2,3,4,5],
+            listDic:[
+                {id:1,userName:"yang"},
+                {id:2,userName:"jie"},
+            ],
+            userObj:{
+              id :1,
+              name:'yangaaa',
+              gender:'男'
+            },
+            msg: '欢迎学习Vue' //通过Vue提供的指令，很方便的就能把数据渲染到页面上，程序
+        }
+    })
+</script>
+</body>
+</html>

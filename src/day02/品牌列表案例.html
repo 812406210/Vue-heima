@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--cdn镜像快速导入Vue包-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加品牌</h3>
+        </div>
+        <div class="panel-body form-inline">
+            <label>
+                id:<input type="text" class="form-control" v-model="id">
+            </label>
+            <label>
+                name:<input type="text" class="form-control" v-model="name">
+            </label>
+            <!-- 在vue中使用绑定机制，如果加了小括号，可以给函数传参-->
+            <input type="button" value="添加" class="btn btn-primary" @click="btnAdd">
+
+            <input type="text" class="form-control" v-model="keyWords">
+            <input type="button" value="搜索" class="btn btn-primary" @click="btnSearch">
+
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>品牌</th>
+            <th>时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in search(keyWords)" :key="item.id">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <!--过滤器只能使用到插件表达式-->
+            <td>{{item.ctime | timeFormat('yyyy-mm-dd hhmmss')}}</td>
+            <td>
+                <a href="#" @click.prevent="del(item.id)">删除</a>
+                <a href="./Model.html">修改</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    //<!--全局过滤器只能使用到插件表达式-->
+    Vue.filter('timeFormat',function (ctime,pattern) {
+        var dt = new Date(ctime)
+        var y =dt.getFullYear()
+        var m = (dt.getMonth()+1).toString().padStart(2,0)
+        var d = dt.getDate().toString().padStart(2,0)
+        if(pattern && pattern.toLowerCase() === 'yyyy-mm-dd'){
+            return `${y}-${m}-${d}`
+        }else {
+            var hh = dt.getHours().toString().padStart(2,0)
+            var mm = dt.getMinutes().toString().padStart(2,0)
+            var ss = dt.getSeconds().toString().padStart(2,0)
+            return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+
+        }
+    })
+
+    //2.创建一个vue实例
+    var vm = new Vue({
+        el: '#app',    //表示当前我们new的这个Vue实例，要控制页面上的哪个区域
+        data: { //data属性中存放的是el中要用到的数据
+        list:[
+            {id:1,name:"奔驰",ctime:new Date()},
+            {id:2,name:"宝马",ctime:new Date()}
+        ],
+        id:'',
+        name:'',
+        keyWords:'',
+        },
+        methods:{
+            btnAdd(){
+                this.list.push({id:this.id,name:this.name,ctime:new Date()})
+                this.id = this.name = ''
+            },
+            del(id){//根据id删除数据
+                //分析：1、如何根据id,找到索引  2、找到索引，通过splice删除
+                //方法一：some函数，找到指定的数据，然后终止寻找
+                this.list.some((item,i) => {
+                    if(item.id == id){
+                        this.list.splice(i,1)
+                        return true;
+                    }
+                })
+
+                //方法二：快速找到索引
+                // this.list.findIndex((item)=>{
+                //     if(item.id == id){
+                //         return true
+                //     }
+                // })
+            },
+            //在search内部方法，通过执行for循环，把符合搜索条件的放在新列表中返回
+            search(keyWords){
+                var newList = []
+                //方法1：forEach
+                // this.list.forEach(item =>{
+                //     if(item.name.indexOf(keyWords) != -1){
+                //         newList.push(item)
+                //     }
+                // })
+
+                //方法2：filter
+                this.list.filter(item =>{
+                    console.log("搜索。。。。")
+                    if(item.name.includes(keyWords)){
+                        newList.push(item)
+                    }
+                })
+                console.log("newList",newList)
+                return newList
+            },
+            btnSearch(){
+                this.keyWords
+            }
+        }
+    })
+</script>
+</body>
+</html>

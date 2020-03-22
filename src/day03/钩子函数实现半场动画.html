@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--cdn镜像快速导入Vue包-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+    <style>
+        .ball{
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="button" value="加入购物车" @click="flag=!flag">
+    <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+        <div class="ball" v-show="flag"></div>
+    </transition>
+</div>
+<script>
+    //2.创建一个vue实例
+    var vm = new Vue({
+        el: '#app',    //表示当前我们new的这个Vue实例，要控制页面上的哪个区域
+        data: { //data属性中存放的是el中要用到的数据
+            flag:false,
+            msg: '欢迎学习Vue' //通过Vue提供的指令，很方便的就能把数据渲染到页面上，程序
+        },
+        methods:{
+            //el表示要执行动画的Dom元素，beforeEnter表示动画起始位置
+            beforeEnter(el){
+                el.style.transform = "translate(0,0)"
+            },
+            //enter表示动画之后的样式，这个可以设置小球完成动画的结束状态
+            enter(el,done){
+                el.offsetWidth
+                el.style.transform ="translate(150px,450px)"
+                el.style.transition= 'all 1s ease'
+                //done()让动画立即消失。这个done就是afterEnter函数的引用
+                done()
+            },
+            //动画完成之后
+            afterEnter(el){
+               // this.flag = !this.flag
+            }
+        }
+    })
+</script>
+</body>
+</html>

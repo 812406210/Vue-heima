@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--cdn镜像快速导入Vue包-->
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--cdn镜像快速导入Vue包-->
+    <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--插值表达式-->
+    <input type="button" value="toggle" @click="flag=!flag"></input>
+<!--使用transition元素，把需要被动画控制的元素包裹起来，它是Vue官方提供的 -->
+<!--    使用animated第三方库，制作动画-->
+<!--    :duration="毫秒值" 来统一设置入场和离场时候的动画时长-->
+    <!--    :duration="{enter:200,leave=400}" 来统一设置入场和离场时候的动画时长-->
+
+    <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="800">
+        <h1 v-if="flag" class="animated">{{msg}}</h1>
+    </transition>
+
+</div>
+<script>
+    //2.创建一个vue实例
+    var vm = new Vue({
+        el: '#app',    //表示当前我们new的这个Vue实例，要控制页面上的哪个区域
+        data: { //data属性中存放的是el中要用到的数据
+            flag:false,
+            msg: '欢迎学习Vue' //通过Vue提供的指令，很方便的就能把数据渲染到页面上，程序
+        }
+    })
+</script>
+</body>
+</html>
