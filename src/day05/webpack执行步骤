@@ -1,0 +1,15 @@
+1、webpack编译步骤：
+    a) 首先webpack发现我们并没有通过命令形式给它指定入口和出口
+    b)  webpack就会去项目的根目录中查找一个叫做webpack.config.js的配置文件
+            代码：
+                module.exports={
+                    entry:path.join(__dirname,'xxxx'),
+                    output:{
+                       entry:path.join(__dirname,'./dist'),
+                       filename:'xxxx.js'
+                    }
+                }
+    c) 找到这个配置文件后，webpack会去解析执行这个配置文件，当解析执行完配置文件后，就得到文件中到处的配置对象
+    d) 当webpack拿到配置对象后，就拿到配置对象，指定入口和出口，进行打包构建
+
+2、使用webpack-dev-server这个工具实现自动打包编译的功能

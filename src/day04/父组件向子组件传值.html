@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--cdn镜像快速导入Vue包-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+<!--父组件通过v-bind向子组件传值-->
+<com1 :parentmsg="msg"></com1>
+</div>
+<script>
+    //2.创建一个vue实例
+    //父组件
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg:'这是父组件的数据'
+        },
+        //子组件
+        components: {
+            //子组件默认无法访问父组件的data和methods上的数据
+            com1:{
+                //注意：子组件中的data数据，并不是通过父组件传过来的，都是子组件自身私有的
+                //data中的数据都是可读可写的
+                data(){
+                    return{
+                        title:'123',
+                        content:'swerwer'
+                    }
+                },
+                template:'<h1>这是子组件-----{{parentmsg}}</h1>',
+                //把父组件传递过来的parentmsg属性，先在props数组中定义一下，才能使用父组件的数据
+                //注意：组件中所有的props中的数据，都是通过父组件传递给子组件用的
+                //props中的数据都是可读的
+                props: ['parentmsg']
+            }
+        }
+    })
+</script>
+</body>
+</html>

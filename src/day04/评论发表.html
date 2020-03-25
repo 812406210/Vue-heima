@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--cdn镜像快速导入Vue包-->
+    <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <cmt-box v-on:func="loadComments"></cmt-box>
+    <ul class="list-group">
+        <li class="list-group-item" v-for="item in list" :key="item.id">
+            <span class="badge">评论员:{{item.user}}</span>
+            {{item.content}}
+        </li>
+    </ul>
+</div>
+
+<template id="temp">
+  <div>
+      <div class="form-group">
+          <label>评论人：</label>
+          <input type="text" class="form-control" v-model="user"></input>
+      </div>
+
+      <div class="form-group">
+          <label>评论内容：</label>
+          <textarea type="text" class="form-control" v-model="content"></textarea>
+      </div>
+      <div class="form-group">
+         <input type="button" value="发表评论" class="btn btn-primary" @click="btnSubmit">
+      </div>
+  </div>
+</template>
+<script>
+
+    var commentBox={
+        template:'#temp',
+        data(){
+            return {
+                user: '',
+                content: '',
+            }
+        },
+        methods: {
+            btnSubmit(){
+                var comment = {id:Date.now(),user:this.user,content:this.content}
+                var list =JSON.parse(localStorage.getItem('cmts') || '[]')
+
+                list.push(comment)
+                localStorage.setItem('cmts',JSON.stringify(list))
+                //子组件向父组件传值
+                this.$emit('func')
+                this.user = this.content = '';
+            }
+        }
+    }
+
+    //2.创建一个vue实例
+    var vm = new Vue({
+        el: '#app',    //表示当前我们new的这个Vue实例，要控制页面上的哪个区域
+        data: { //data属性中存放的是el中要用到的数据
+            msg: '欢迎学习Vue',
+            list:[
+                    {id:Date.now(), user:'李白',content:'天手动阀手动阀'},
+                {id:Date.now(), user:'杜甫',content:'的手法首发'},
+            ]
+        },
+        created(){
+          //this.loadComments()
+        },
+        methods:{
+            loadComments(){
+                var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+                this.list = list
+            }
+        },
+        components:{
+            'cmt-box':commentBox
+        }
+    })
+</script>
+</body>
+</html>
